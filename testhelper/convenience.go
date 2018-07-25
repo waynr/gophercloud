@@ -210,6 +210,14 @@ func deepDiff(expected, actual interface{}, logDifference diffLogger) {
 	deepDiffEqual(expectedValue, actualValue, map[visit]bool{}, []string{}, logDifference)
 }
 
+// AssertStringNotEmpty validates that the given string is not an empty string.
+// If it is an empty string it fails the test with a fatal error.
+func AssertStringNotEmpty(t *testing.T, expected string) {
+	if expected == "" {
+		logFatal(t, "expected a non-empty string but got an empty one")
+	}
+}
+
 // AssertEquals compares two arbitrary values and performs a comparison. If the
 // comparison fails, a fatal error is raised that will fail the test
 func AssertEquals(t *testing.T, expected, actual interface{}) {

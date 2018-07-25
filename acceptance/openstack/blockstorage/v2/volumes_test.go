@@ -12,6 +12,28 @@ import (
 	th "github.com/gophercloud/gophercloud/testhelper"
 )
 
+func TestVolumesList(t *testing.T) {
+	client, err := clients.NewBlockStorageV2Client()
+	if err != nil {
+		t.Fatalf("Unable to create a blockstorage client: %v", err)
+	}
+
+	allPages, err := volumes.List(client, volumes.ListOpts{}).AllPages()
+	if err != nil {
+		t.Fatalf("Unable to retrieve volumes: %v", err)
+	}
+
+	allVolumes, err := volumes.ExtractVolumes(allPages)
+	if err != nil {
+		t.Fatalf("Unable to extract volumes: %v", err)
+	}
+
+	for _, volume := range allVolumes {
+		tools.PrintResource(t, volume)
+		th.AssertStringNotEmpty(t, volume.TenantID)
+	}
+}
+
 func TestVolumesCreateDestroy(t *testing.T) {
 	clients.RequireLong(t)
 

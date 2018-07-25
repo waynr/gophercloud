@@ -75,6 +75,8 @@ type Volume struct {
 	ConsistencyGroupID string `json:"consistencygroup_id"`
 	// Multiattach denotes if the volume is multi-attach capable.
 	Multiattach bool `json:"multiattach"`
+	// TenantID is the project owner of the project.
+	TenantID string `json:"os-vol-tenant-attr:tenant_id"`
 }
 
 func (r *Volume) UnmarshalJSON(b []byte) error {
